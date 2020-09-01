@@ -21,7 +21,7 @@ class apiCaller {
     report() {
         let date = new Date();
         let reportDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
-        return request.get("https://fanxiao.ujn.edu.cn/temperatureRecord/createTemperatureRecordCopy", {
+        return request.post("https://fanxiao.ujn.edu.cn/temperatureRecord/createTemperatureRecordCopy", {
             formData: {
                 reportTime: reportDate,
                 isOut: 2,
@@ -31,7 +31,6 @@ class apiCaller {
                 temperaturePm: 36.5,
                 reserveOne: 36.5
             },
-            method: "POST",
             jar: this.jar,
             headers: {
                 "User-Agent": UA
