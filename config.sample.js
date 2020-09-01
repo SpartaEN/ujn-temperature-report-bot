@@ -1,5 +1,7 @@
 module.exports = {
     token: "",
+    // Set to true if you'd like to test
+    dryrun: false,
     webhooks: {
         enable: false,
         url: "",
