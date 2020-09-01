@@ -64,7 +64,7 @@ const HelpMessage = `Usage:
 /disable <WeChat OpenId> Disablle specific auto temperature report on your account
 /list List all tasks on your account
 /trigger <WeChat OpenId> Trigger an update on specific openid
-Getting WeChat openid https://sparta-en.org/getting-wechat-openid
+Getting WeChat openid https://blog.sparta-en.org/ujn-temperature-report-bot-usage/
 NOTE: We don't store your personal information except your openId, which *can get all information associated* to the site. Proceed with your own risks. `
 
 bot.onText(/\/start/, (msg) => {
