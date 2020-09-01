@@ -9,7 +9,9 @@ let date = 0;
 
 process.env.TZ = "Asia/Shanghai";
 
-const bot = new TelegramBot(config.token, {polling: !config.webhooks.enable});
+const bot = new TelegramBot(config.token, {
+    polling: !config.webhooks.enable
+});
 const app = express();
 
 app.use(express.json());
@@ -26,7 +28,7 @@ if (config.webhooks.enable) {
     });
 }
 
-async function updateTemperature (chatId, openId) {
+async function updateTemperature(chatId, openId) {
     let API = new api(openId);
     try {
         let user = JSON.parse(await API.login());
@@ -39,7 +41,7 @@ async function updateTemperature (chatId, openId) {
                 if (config.dryrun) {
                     bot.sendMessage(chatId, "[Dry-Run] The temperature won't be submitted under dry-run mode.");
                 } else {
-                    await API.report();   
+                    await API.report();
                 }
             }
             let newUser = JSON.parse(await API.login());
@@ -48,10 +50,10 @@ async function updateTemperature (chatId, openId) {
         } else {
             await bot.sendMessage(chatId, `Some problems with your account: ${response.msg}`);
         }
-    } catch(e) {
+    } catch (e) {
         bot.sendMessage(chatId, "We're experiencing some problems while submitting your temperature.");
         console.log(e);
-        bot.sendMessage(config.ownerId, e.toString());   
+        bot.sendMessage(config.ownerId, e.toString());
     }
 }
 
@@ -67,12 +69,16 @@ NOTE: We don't store your personal information except your openId, which *can ge
 
 bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id;
-    bot.sendMessage(chatId, HelpMessage, {parse_mode: "Markdown"});
+    bot.sendMessage(chatId, HelpMessage, {
+        parse_mode: "Markdown"
+    });
 });
 
 bot.onText(/\/help/, (msg) => {
     const chatId = msg.chat.id;
-    bot.sendMessage(chatId, HelpMessage, {parse_mode: "Markdown"});
+    bot.sendMessage(chatId, HelpMessage, {
+        parse_mode: "Markdown"
+    });
 });
 
 bot.onText(/\/ping/, (msg) => {
@@ -99,7 +105,7 @@ bot.onText(/\/enable (.+)/, async (msg, match) => {
             } else {
                 bot.sendMessage(chatId, "This openid has already in our system.");
             }
-        } catch(e) {
+        } catch (e) {
             bot.sendMessage(chatId, "We're experiencing some problems.");
             console.log(e);
             bot.sendMessage(config.ownerId, e.toString());
@@ -120,7 +126,7 @@ bot.onText(/\/disable (.+)/, async (msg, match) => {
         } else {
             bot.sendMessage(chatId, "We can't find this openid.")
         }
-    } catch(e) {
+    } catch (e) {
         bot.sendMessage(chatId, "We're experiencing some problems.");
         console.log(e);
         bot.sendMessage(config.ownerId, e.toString());
@@ -132,7 +138,7 @@ bot.onText(/\/disableAll/, async (msg) => {
     try {
         await tasks.deleteAll(chatId);
         bot.sendMessage(chatId, "Success.");
-    } catch(e) {
+    } catch (e) {
         bot.sendMessage(chatId, "We're experiencing some problems.");
         console.log(e);
         bot.sendMessage(config.ownerId, e.toString());
@@ -148,11 +154,13 @@ bot.onText(/\/list/, async (msg) => {
             response += ele.openid + '\n';
         }
         response += `${res.length} rows.`;
-        bot.sendMessage(chatId, response, {parse_mode: "Markdown"});
-    } catch(e) {
+        bot.sendMessage(chatId, response, {
+            parse_mode: "Markdown"
+        });
+    } catch (e) {
         bot.sendMessage(chatId, "We're experiencing some problems.");
         console.log(e);
-        bot.sendMessage(config.ownerId, e.toString());        
+        bot.sendMessage(config.ownerId, e.toString());
     }
 });
 
@@ -167,7 +175,7 @@ bot.onText(/\/trigger (.+)/, async (msg, match) => {
         } else {
             bot.sendMessage(chatId, "We can't find this openid.")
         }
-    } catch(e) {
+    } catch (e) {
         bot.sendMessage(chatId, "We're experiencing some problems.");
         console.log(e);
         bot.sendMessage(config.ownerId, e.toString());
@@ -180,8 +188,8 @@ bot.onText(/\/date/, (msg) => {
 });
 
 setInterval(() => {
-    if (new Date().getDay() != date && new Date().getHours() >= 19) {
-        date = new Date().getDay();
+    if (new Date().getDate() != date && new Date().getHours() >= 19) {
+        date = new Date().getDate();
         (async () => {
             let data = await tasks.getAll();
             for (let single of data) {

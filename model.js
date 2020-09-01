@@ -42,7 +42,7 @@ tasks.deleteAll = (uid) => {
     return new Promise((resolve, reject) => {
         connection.query("DELETE FROM tasks WHERE uid = ?", uid, (err, res) => {
             if (err) {
-                reject (err);
+                reject(err);
             } else {
                 resolve(res);
             }
@@ -51,7 +51,7 @@ tasks.deleteAll = (uid) => {
 }
 
 tasks.getAll = () => {
-    return new Promise((resolve, reject)=> {
+    return new Promise((resolve, reject) => {
         connection.query("SELECT * FROM tasks", (err, res) => {
             if (err) {
                 reject(err);
@@ -63,7 +63,7 @@ tasks.getAll = () => {
 }
 
 tasks.getByUid = (uid) => {
-    return new Promise((resolve, reject)=> {
+    return new Promise((resolve, reject) => {
         connection.query("SELECT * FROM tasks WHERE uid = ?", uid, (err, res) => {
             if (err) {
                 reject(err);
@@ -75,7 +75,7 @@ tasks.getByUid = (uid) => {
 }
 
 tasks.getByOpenId = (openid) => {
-    return new Promise((resolve, reject)=> {
+    return new Promise((resolve, reject) => {
         connection.query("SELECT * FROM tasks WHERE openid = ?", openid, (err, res) => {
             if (err) {
                 reject(err);
