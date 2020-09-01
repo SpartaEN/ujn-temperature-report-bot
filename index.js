@@ -2,13 +2,29 @@ const TelegramBot = require('node-telegram-bot-api');
 const config = require('./config');
 const api = require('./api');
 const tasks = require('./model');
+const express = require('express');
 
 let queue = [];
 let date = 0;
 
 process.env.TZ = "Asia/Shanghai";
 
-const bot = new TelegramBot(config.token, {polling: true});
+const bot = new TelegramBot(config.token, {polling: !config.webhooks.enable});
+const app = express();
+
+app.use(express.json());
+
+app.post(`/${config.webhooks.secret}`, (req, res) => {
+    bot.processUpdate(req.body);
+    res.sendStatus(200);
+});
+
+if (config.webhooks.enable) {
+    bot.setWebHook(config.webhooks.url + config.webhooks.secret);
+    app.listen(config.webhooks.port, () => {
+        console.log("WebHooks enabled.");
+    });
+}
 
 async function updateTemperature (chatId, openId) {
     let API = new api(openId);
@@ -20,7 +36,11 @@ async function updateTemperature (chatId, openId) {
             } else if (new Date().getHours() <= 18) {
                 await bot.sendMessage(chatId, "Current time haven't passed 6 p.m., try again later.")
             } else {
-                await API.report();   
+                if (config.dryrun) {
+                    bot.sendMessage(chatId, "[Dry-Run] The temperature won't be submitted under dry-run mode.");
+                } else {
+                    await API.report();   
+                }
             }
             let newUser = JSON.parse(await API.login());
             let record = newUser.temperatureRecord;

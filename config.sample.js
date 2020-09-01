@@ -2,7 +2,9 @@ module.exports = {
     token: "",
     webhooks: {
         enable: false,
-        url: ""
+        url: "",
+        port: 3000,
+        secret: ""
     },
     database: {
         addr: "",
