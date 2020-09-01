@@ -1,0 +1,27 @@
+{
+  "name": "ujn-temperature-report-bot",
+  "version": "1.0.0",
+  "description": "Just a simple telegram bot which reports your temperature automatically and notifies you.",
+  "main": "index.js",
+  "dependencies": {
+    "bluebird": "^3.7.2",
+    "express": "^4.17.1",
+    "mysql": "^2.18.1",
+    "node-telegram-bot-api": "^0.50.0",
+    "request-promise": "^4.2.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SpartaEN/ujn-temperature-report-bot.git"
+  },
+  "author": "Sparta_EN",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SpartaEN/ujn-temperature-report-bot/issues"
+  },
+  "homepage": "https://github.com/SpartaEN/ujn-temperature-report-bot#readme"
+}
