@@ -31,6 +31,7 @@ class apiCaller {
                 temperaturePm: 36.5,
                 reserveOne: 36.5
             },
+            method: "POST",
             jar: this.jar,
             headers: {
                 "User-Agent": UA
