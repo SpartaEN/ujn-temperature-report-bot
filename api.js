@@ -20,7 +20,7 @@ class apiCaller {
     }
     report() {
         let date = new Date();
-        let reportDate = `${date.getFullYear()}-${date.getMonth()}-${date.getDay()}`;
+        let reportDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
         return request.get("https://fanxiao.ujn.edu.cn/temperatureRecord/createTemperatureRecordCopy", {
             formData: {
                 reportTime: reportDate,
@@ -42,7 +42,7 @@ class apiCaller {
 apiCaller.checkTime = (reportTime) => {
     let reportDate = new Date(reportTime);
     let currentDate = new Date();
-    if (currentDate.getFullYear() == reportDate.getFullYear() && currentDate.getMonth() == reportDate.getMonth() && currentDate.getDay() == reportDate.getDay()) {
+    if (currentDate.getFullYear() == reportDate.getFullYear() && currentDate.getMonth() == reportDate.getMonth() && currentDate.getDate() == reportDate.getDate()) {
         return true;
     } else {
         return false;
