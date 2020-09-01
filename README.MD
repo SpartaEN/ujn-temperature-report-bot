@@ -16,4 +16,4 @@ Just a simple telegram bot which reports your temperature automatically and noti
 
 # Demo
 
-[@ujn_temperature_bot](t.me/ujn_temperature_bot)
+[@ujn_temperature_bot](https://t.me/ujn_temperature_bot)
