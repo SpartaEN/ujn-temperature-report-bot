@@ -9,4 +9,11 @@ Just a simple telegram bot which reports your temperature automatically and noti
 
 # Usage
 
-Copy `config.sample.js` to `config.js` and configure the file.
+- Configure database
+- Copy `config.sample.js` to `config.js` and configure the file.
+- npm install
+- node index
+
+# Demo
+
+[@ujn_temperature_bot](t.me/ujn_temperature_bot)
