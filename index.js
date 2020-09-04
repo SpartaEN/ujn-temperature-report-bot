@@ -35,7 +35,7 @@ async function updateTemperature(chatId, openId) {
         if (user.status == 1) {
             if (api.checkTime(user.temperatureRecord.updateTime)) {
                 await bot.sendMessage(chatId, "No need to update.");
-            } else if (new Date().getHours() <= 18) {
+            } else if (new Date().getHours() < 18) {
                 await bot.sendMessage(chatId, "Current time haven't passed 6 p.m., try again later.")
             } else {
                 if (config.dryrun) {
