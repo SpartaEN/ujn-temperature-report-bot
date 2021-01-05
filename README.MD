@@ -1,19 +1,38 @@
 # ujn-temperature-report-bot
-Just a simple telegram bot which reports your temperature automatically and notifies you.
+
+济南大学自动报体温。
+
+支持以下几种填报方式
+ - 智慧济大办事大厅填报
+ - 返校健康卡(单点登录)
+ - 返校健康卡(微信OpenID )
 
 # Requirements
 
-- mysql
 - node.js
+
+## optional
+
+如果需要一个telegram bot来通知是否填报成功的话。
+
+- mysql
 - telegram bot
 
 # Usage
 
-- Configure database
-- Copy `config.sample.js` to `config.js` and configure the file.
+Standalone:
+
+- Copy `users.sample.js` to `users.js`
 - npm install
 - node index
 
-# Demo
+Telegram Bot(Only support wechat method):
+
+- Configure database with `tgBot.sql`
+- Copy `config.sample.js` to `config.js` and configure the file.
+- npm install
+- node telegramBot
+
+# Demo(telegram bot)
 
 [@ujn_temperature_bot](https://t.me/ujn_temperature_bot)

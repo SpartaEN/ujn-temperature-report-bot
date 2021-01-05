@@ -4,10 +4,13 @@
   "description": "Just a simple telegram bot which reports your temperature automatically and notifies you.",
   "main": "index.js",
   "dependencies": {
-    "bluebird": "^3.7.2",
+    "cron": "^1.8.2",
     "express": "^4.17.1",
+    "lodash": "^4.17.20",
+    "moment": "^2.29.1",
     "mysql": "^2.18.1",
     "node-telegram-bot-api": "^0.50.0",
+    "request": "^2.88.2",
     "request-promise": "^4.2.6"
   },
   "devDependencies": {},
