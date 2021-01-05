@@ -1,7 +1,7 @@
 const TelegramBot = require('node-telegram-bot-api');
 const config = require('./config');
-const api = require('./api');
-const tasks = require('./model');
+const api = require('./reportMethods/fanxiaoWeChat');
+const tasks = require('./utils/model');
 const express = require('express');
 
 let queue = [];
