@@ -36,3 +36,5 @@ class fanxiaoSSO extends ujnsso {
         }
     }
 }
+
+module.exports = fanxiaoSSO;
