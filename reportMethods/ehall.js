@@ -7,7 +7,6 @@ const moment = require('moment');
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36';
 
 const serviceId = '599a1e21-79aa-423f-aee9-4a18c9310f0b'
-const refDataStoreId = 'c328a921-56aa-4aa4-afef-4db6a950';
 
 function generateTemperature() {
     let num;
@@ -151,11 +150,6 @@ class ehall extends ujnsso {
             let form = await this.getFormBase(serviceDetails.formID, serviceDetails.serveID, serviceDetails.procID, serviceDetails.privilegeId);
             let data = ehallForm.deserialize(form);
             let dataStoreId = Object.keys(data.body.dataStores)[0];
-            /* IDK Whether the dataStoreId change everyday or just change when the form content changes. Comment anyway.
-            if (dataStoreId != refDataStoreId) {
-                throw new Error('DataStore ID seems changed, please double check your form.');
-            }
-            */
             data = craftForm(data, this._information, dataStoreId);
             form = ehallForm.serialize(data);
             let res = await this.submitService(serviceDetails.formID, serviceDetails.procID, form);
