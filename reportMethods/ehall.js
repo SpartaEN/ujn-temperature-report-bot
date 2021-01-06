@@ -149,7 +149,16 @@ class ehall extends ujnsso {
             let serviceDetails = await this.getServiceDetails();
             let form = await this.getFormBase(serviceDetails.formID, serviceDetails.serveID, serviceDetails.procID, serviceDetails.privilegeId);
             let data = ehallForm.deserialize(form);
-            let dataStoreId = Object.keys(data.body.dataStores)[0];
+            let dataStoreId = null;
+            for (let key of Object.keys(data.body.dataStores)) {
+                if (key.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{8}$/))
+                {
+                    dataStoreId = key;
+                    break;
+                }
+            }
+            if (dataStoreId == null)
+                throw new Error('Unable to find datastore.');
             data = craftForm(data, this._information, dataStoreId);
             form = ehallForm.serialize(data);
             let res = await this.submitService(serviceDetails.formID, serviceDetails.procID, form);
