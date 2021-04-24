@@ -10,7 +10,7 @@ class fanxiaoSSO extends ujnsso {
     }
     submitTemperature() {
         return request.post("https://fanxiao.ujn.edu.cn/temperatureRecord/createTemperatureRecordCopy", {
-            json: {
+            formData: {
                 reportTime: moment().format('YYYY-MM-DD'),
                 isOut: 2,
                 address: "",

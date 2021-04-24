@@ -1,4 +1,5 @@
 const request = require('request-promise');
+const moment = require('moment');
 
 const UA = "Mozilla/5.0 (Linux; Android 5.0; SM-N9100 Build/LRX21V) > AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 > Chrome/37.0.0.0 Mobile Safari/537.36 > MicroMessenger/6.0.2.56_r958800.520 NetType/WIFI";
 
@@ -19,11 +20,9 @@ class fanxiaoWeChat {
         });
     }
     submitTemperature() {
-        let date = new Date();
-        let reportDate = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}`;
         return request.post("https://fanxiao.ujn.edu.cn/temperatureRecord/createTemperatureRecordCopy", {
-            json: {
-                reportTime: reportDate,
+            formData: {
+                reportTime: moment().format('YYYY-MM-DD'),
                 isOut: 2,
                 address: "",
                 travelMode: "",
