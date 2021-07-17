@@ -6,7 +6,7 @@
   "dependencies": {
     "cron": "^1.8.2",
     "express": "^4.17.1",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "mysql": "^2.18.1",
     "node-telegram-bot-api": "^0.50.0",
