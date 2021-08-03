@@ -55,10 +55,13 @@ module.exports = [{
         // 路线
         LX: "",
         // 出行方式 这个也需要参考智慧济大
-        CXFS_TEXT: "",
+        CXFS_TEXT: "请选择",
         CXFS: "",
         // 车牌号
         CPH: "",
+        // 08/03/2021新增
+        // 目前所在地风险等级 有 低风险 中风险 高风险
+        MQSZDFXDJ: "低风险",
         // 是否医学隔离
         SFYXGL: "否",
         // 发热情况 这个貌似是系统给填写的 分有 不发热 低热（37.3-38度） 中热(38.1-39度) 高热(39.1度以上)
@@ -66,7 +69,7 @@ module.exports = [{
         // 是否感染COVID-19
         SFGRXGFY: "否",
         // 感染类型 这个也要参考智慧济大
-        GRLX_TEXT: "",
+        GRLX_TEXT: "请选择",
         GRLX: "",
         // 本人或家庭是否为密切接触者
         BRHJTSFWMQJC: "否",
@@ -112,6 +115,7 @@ module.exports = [{
             CXFS_TEXT: null,
             CXFS: null,
             CPH: null,
+            MQSZDFXDJ: null,
             SFYXGL: null,
             FRQK: null,
             SFGRXGFY: null,
