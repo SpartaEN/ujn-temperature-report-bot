@@ -24,7 +24,7 @@ let scheduledFanxiao = new CronJob('00 18 * * *', async function () {
 }, null, true, 'Asia/Shanghai');
 
 // Everyday at 12 a.m. for ehall
-let scheduledEHall = new CronJob('00 12 * * *', async function () {
+let scheduledEHall = new CronJob('00 14 * * *', async function () {
     console.log('Starting auto report for ehall.');
     for (let user of users) {
         if (user.ehall) {
