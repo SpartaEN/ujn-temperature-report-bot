@@ -1,11 +1,11 @@
 # ujn-temperature-report-bot
 
-济南大学自动报体温。(默认每天下午6点)
+济南大学自动报体温。
 
 支持以下几种填报方式
  - 智慧济大办事大厅填报
  - 返校健康卡(单点登录)
- - 返校健康卡(微信OpenID )
+ - 返校健康卡(微信OpenID)
 
 # Requirements
 
@@ -13,26 +13,16 @@
 
 ## optional
 
-如果需要一个telegram bot来通知是否填报成功的话。
+如果需要知道是否填报成功的话:
 
-- mysql
 - telegram bot
+- ServerChan
 
 # Usage
 
-Standalone:
+1. 安装node.js与npm
+2. 执行npm install安装依赖
+3. Enjoy!
 
-- Copy `users.sample.js` to `users.js`
-- npm install
-- node index
-
-Telegram Bot(Only support wechat method):
-
-- Configure database with `tgBot.sql`
-- Copy `config.sample.js` to `config.js` and configure the file.
-- npm install
-- node telegramBot
-
-# Demo(telegram bot)
-
-[@ujn_temperature_bot](https://t.me/ujn_temperature_bot)
+- 执行node index --help以查看帮助
+- 直接执行node index即开启自动填报
