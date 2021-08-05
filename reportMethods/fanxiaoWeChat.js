@@ -7,6 +7,10 @@ class fanxiaoWeChat {
     constructor(openid) {
         this._jar = request.jar();
         this._openid = openid;
+        this._event_cb = (type, mode, status, username, msg) => {};
+    }
+    setEventCallback(cb) {
+        this._event_cb = cb;
     }
     login() {
         return request.get("https://fanxiao.ujn.edu.cn/wxUser/wxLoginByOpenId", {
@@ -36,15 +40,19 @@ class fanxiaoWeChat {
             }
         });
     }
-    async report()
-    {
+    async report() {
         try {
-            await this.login();
+            let user = JSON.parse(await this.login());
+            if (user.status != 1) {
+                throw new Error(`Server responded with ${user.msg}`);
+            }
             await this.submitTemperature();
             console.log(`[FanxiaoWechat] User ${this._openid} success.`);
-        }catch(e) {
+            this._event_cb('openid', 'card', true, this._openid, 'OK');
+        } catch (e) {
             console.log(`[FanxiaoWechat] User ${this._openid} report failed.`);
             console.log(e);
+            this._event_cb('openid', 'card', false, this._openid, e.toString());
         }
     }
 }

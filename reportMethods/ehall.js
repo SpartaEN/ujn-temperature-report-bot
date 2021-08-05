@@ -35,6 +35,10 @@ class ehall extends ujnsso {
     constructor(username, password, details) {
         super(username, password, 'http://ehall.ujn.edu.cn/fp/');
         this._information = _.cloneDeep(details);
+        this._event_cb = (type, mode, status, username, msg) => {};
+    }
+    setEventCallback(cb) {
+        this._event_cb = cb;
     }
     checkService() {
         return request({
@@ -167,9 +171,11 @@ class ehall extends ujnsso {
             } else {
                 throw new Error(`Server responded with ${res}, report may failed.`);
             }
+            this._event_cb('sso', 'ehall', true, this._username, 'OK');
         } catch (e) {
             console.log(`[E-Hall] User ${this._username} failed:`);
             console.log(e);
+            this._event_cb('sso', 'ehall', false, this._username, e.toString());
         }
     }
 }

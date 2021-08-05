@@ -7,6 +7,10 @@ const UA = "Mozilla/5.0 (Linux; Android 5.0; SM-N9100 Build/LRX21V) > AppleWebKi
 class fanxiaoSSO extends ujnsso {
     constructor(username, password) {
         super(username, password, 'http://fanxiao.ujn.edu.cn/cas/index');
+        this._event_cb = (type, mode, status, username, msg) => {};
+    }
+    setEventCallback(cb) {
+        this._event_cb = cb;
     }
     submitTemperature() {
         return request.post("https://fanxiao.ujn.edu.cn/temperatureRecord/createTemperatureRecordCopy", {
@@ -30,9 +34,11 @@ class fanxiaoSSO extends ujnsso {
             await this.login();
             await this.submitTemperature();
             console.log(`[FanxiaoSSO] User ${this._username} success.`);
-        }catch(e) {
+            this._event_cb('sso', 'card', true, this._username, 'OK');
+        } catch (e) {
             console.log(`[FanxiaoSSO] User ${this._username} failed:`);
             console.log(e);
+            this._event_cb('sso', 'card', false, this._username, e.toString());
         }
     }
 }

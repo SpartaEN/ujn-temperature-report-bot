@@ -14,6 +14,16 @@ const fanxiaoWeChat = require('./reportMethods/fanxiaoWeChat');
 const config = require('./utils/config');
 const users = require('./utils/users');
 
+function generateCallback(userDB, enablePush, pushService) {
+    return function callback(type, mode, status, username, msg) {
+        userDB.updateStatus(username, status, msg);
+        if (enablePush) {
+            console.log(`[Push] ${type}-${mode} ${username} ${status}:${msg}`);
+            // TODO Push something to account
+        }
+    }
+}
+
 const argv = yargs(hideBin(process.argv))
     .command('init', 'Initial config file', (argv) => {
         try {
@@ -196,18 +206,33 @@ const argv = yargs(hideBin(process.argv))
         try {
             let userDB = new users();
             let data;
-            let queue = [];
             if (argv.target) {
                 data = [userDB.getByID(argv.target)];
+            } else if(argv.type == 'all') {
+                data = userDB.getAll();
             } else {
                 data = userDB.getByMode(argv.type);
             }
             for (const val of data) {
                 if (val.lastUpdate.success != true && val.lastUpdate.date == new Date().toISOString().split('T')[0]) {
-                    queue.push(val);
+                    if (argv.type == 'all' || argv.type == 'ehall') {
+                        let c = new ehall(val.username, val.password, val.details);
+                        c.setEventCallback(generateCallback(userDB, false, undefined));
+                        c.report();
+                    }
+                    if (argv.type == 'all' || argv.type == 'card') {
+                        if (val.type == 'sso') {
+                            let c = new fanxiaoSSO(val.username, val.password);
+                            c.setEventCallback(generateCallback(userDB, false, undefined));
+                            c.report();
+                        } else {
+                            let c = new fanxiaoWeChat(val.username, val.password);
+                            c.setEventCallback(generateCallback(userDB, false, undefined));
+                            c.report();
+                        }
+                    }
                 }
-            }
-            // TODO Call auto report
+            }            
         } catch (e) {
             console.log(`${e.toString()}`);
         }
@@ -223,11 +248,12 @@ if (argv._.length == 0) {
         for (const val of jobs) {
             if (val.type == 'openid') {
                 let c = new fanxiaoWeChat(val.username);
+                c.setEventCallback(generateCallback(userDB, true, undefined))
                 c.report();
             } else {
                 let c = new fanxiaoSSO(val.username, val.password);
+                c.setEventCallback(generateCallback(userDB, true, undefined))
                 c.report();
-                //TODO Add callback to update database
             }
         }
     }, null, true, 'Asia/Shanghai');
@@ -238,8 +264,8 @@ if (argv._.length == 0) {
         let jobs = userDB.getByMode('ehall');
         for (const val of jobs) {
             let e = new ehall(val.username, val.password, val.details);
+            c.setEventCallback(generateCallback(userDB, true, undefined))
             e.report();
-            //TODO Add callback to update database
         }
     }, null, true, 'Asia/Shanghai');
 }

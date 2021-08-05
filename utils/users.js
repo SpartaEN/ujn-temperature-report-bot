@@ -265,6 +265,7 @@ class users {
                 datetime: new Date().toISOString(),
                 msg: msg
             }
+            this.userDB.set(id, data);
             this.commit();
         } else {
             throw new Error('No such user.');
