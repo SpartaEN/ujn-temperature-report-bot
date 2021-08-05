@@ -1,0 +1,5 @@
+Critical
+1. Handle error and update database
+2. Notification push
+Medium
+1. Seperate lastUpdate section to avoid duplicated submission
