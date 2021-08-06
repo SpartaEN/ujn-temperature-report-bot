@@ -26,3 +26,5 @@
 
 - 执行node index --help以查看帮助
 - 直接执行node index即开启自动填报
+
+详细说明参考 [USAGES.MD](./USAGES.MD)
