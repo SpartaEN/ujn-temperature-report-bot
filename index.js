@@ -277,7 +277,7 @@ if (argv._.length == 0) {
             let jobs = userDB.getByMode('ehall');
             for (const val of jobs) {
                 let e = new ehall(val.username, val.password, val.details);
-                c.setEventCallback(generateCallback(userDB, true, pushService))
+                e.setEventCallback(generateCallback(userDB, true, pushService))
                 e.report();
             }
         }, null, true, 'Asia/Shanghai');
