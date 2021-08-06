@@ -216,7 +216,7 @@ const argv = yargs(hideBin(process.argv))
             let data;
             if (argv.target) {
                 data = [userDB.getByID(argv.target)];
-            } else if(argv.type == 'all') {
+            } else if (argv.type == 'all') {
                 data = userDB.getAll();
             } else {
                 data = userDB.getByMode(argv.type);
@@ -240,7 +240,7 @@ const argv = yargs(hideBin(process.argv))
                         }
                     }
                 }
-            }            
+            }
         } catch (e) {
             console.log(`${e.toString()}`);
         }
@@ -250,31 +250,36 @@ const argv = yargs(hideBin(process.argv))
 if (argv._.length == 0) {
     console.log('Starting auto-report.');
     const pushService = new notifications(config.notification);
-    let scheduledFanxiao = new CronJob(config.cron.card, async function () {
-        console.log('Starting auto report for card.');
-        let userDB = new users();
-        let jobs = userDB.getByMode('card');
-        for (const val of jobs) {
-            if (val.type == 'openid') {
-                let c = new fanxiaoWeChat(val.username);
-                c.setEventCallback(generateCallback(userDB, true, pushService))
-                c.report();
-            } else {
-                let c = new fanxiaoSSO(val.username, val.password);
-                c.setEventCallback(generateCallback(userDB, true, pushService))
-                c.report();
+    if (config.toggleCard) {
+        console.log(`Add scheduler for card, ${config.cron.card}`)
+        let scheduledFanxiao = new CronJob(config.cron.card, async function () {
+            console.log('Starting auto report for card.');
+            let userDB = new users();
+            let jobs = userDB.getByMode('card');
+            for (const val of jobs) {
+                if (val.type == 'openid') {
+                    let c = new fanxiaoWeChat(val.username);
+                    c.setEventCallback(generateCallback(userDB, true, pushService))
+                    c.report();
+                } else {
+                    let c = new fanxiaoSSO(val.username, val.password);
+                    c.setEventCallback(generateCallback(userDB, true, pushService))
+                    c.report();
+                }
             }
-        }
-    }, null, true, 'Asia/Shanghai');
-
-    let scheduledEHall = new CronJob(config.cron.ehall, async function () {
-        console.log('Starting auto report for ehall.');
-        let userDB = new users();
-        let jobs = userDB.getByMode('ehall');
-        for (const val of jobs) {
-            let e = new ehall(val.username, val.password, val.details);
-            c.setEventCallback(generateCallback(userDB, true, pushService))
-            e.report();
-        }
-    }, null, true, 'Asia/Shanghai');
+        }, null, true, 'Asia/Shanghai');
+    }
+    if (config.toggleEHall) {
+        console.log(`Add scheduler for ehall, ${config.cron.ehall}`)
+        let scheduledEHall = new CronJob(config.cron.ehall, async function () {
+            console.log('Starting auto report for ehall.');
+            let userDB = new users();
+            let jobs = userDB.getByMode('ehall');
+            for (const val of jobs) {
+                let e = new ehall(val.username, val.password, val.details);
+                c.setEventCallback(generateCallback(userDB, true, pushService))
+                e.report();
+            }
+        }, null, true, 'Asia/Shanghai');
+    }
 }
