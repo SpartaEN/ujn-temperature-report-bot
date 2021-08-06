@@ -13,12 +13,13 @@ const fanxiaoSSO = require('./reportMethods/fanxiaoSSO');
 const fanxiaoWeChat = require('./reportMethods/fanxiaoWeChat');
 const config = require('./utils/config');
 const users = require('./utils/users');
+const notifications = require('./utils/notifications');
 
 function generateCallback(userDB, enablePush, pushService) {
     return function callback(type, mode, status, username, msg) {
         userDB.updateStatus(username, status, msg);
         if (enablePush) {
-            console.log(`[Push] ${type}-${mode} ${username} ${status}:${msg}`);
+            pushService.handleMessage(type, mode, status, username, msg);
             // TODO Push something to account
         }
     }
@@ -202,8 +203,15 @@ const argv = yargs(hideBin(process.argv))
                 describe: 'User ID (For single user, which will override types and status)',
                 type: 'string'
             })
+            .option('force', {
+                alias: 'f',
+                describe: 'Force trigger update'
+            })
     }, (argv) => {
         try {
+            if (!argv.force) {
+                console.log('NOTE: Only user marked as failed today will be updated, use --force to override.');
+            }
             let userDB = new users();
             let data;
             if (argv.target) {
@@ -214,7 +222,7 @@ const argv = yargs(hideBin(process.argv))
                 data = userDB.getByMode(argv.type);
             }
             for (const val of data) {
-                if (val.lastUpdate.success != true && val.lastUpdate.date == new Date().toISOString().split('T')[0]) {
+                if (val.lastUpdate.success != true && val.lastUpdate.date == new Date().toISOString().split('T')[0] || argv.force) {
                     if (argv.type == 'all' || argv.type == 'ehall') {
                         let c = new ehall(val.username, val.password, val.details);
                         c.setEventCallback(generateCallback(userDB, false, undefined));
@@ -223,7 +231,7 @@ const argv = yargs(hideBin(process.argv))
                     if (argv.type == 'all' || argv.type == 'card') {
                         if (val.type == 'sso') {
                             let c = new fanxiaoSSO(val.username, val.password);
-                            c.setEventCallback(generateCallback(userDB, false, undefined));
+                            c.setEventCallback(generateCallback(userDB, true, undefined));
                             c.report();
                         } else {
                             let c = new fanxiaoWeChat(val.username, val.password);
@@ -241,6 +249,7 @@ const argv = yargs(hideBin(process.argv))
 
 if (argv._.length == 0) {
     console.log('Starting auto-report.');
+    const pushService = new notifications(config.notification);
     let scheduledFanxiao = new CronJob(config.cron.card, async function () {
         console.log('Starting auto report for card.');
         let userDB = new users();
@@ -248,11 +257,11 @@ if (argv._.length == 0) {
         for (const val of jobs) {
             if (val.type == 'openid') {
                 let c = new fanxiaoWeChat(val.username);
-                c.setEventCallback(generateCallback(userDB, true, undefined))
+                c.setEventCallback(generateCallback(userDB, true, pushService))
                 c.report();
             } else {
                 let c = new fanxiaoSSO(val.username, val.password);
-                c.setEventCallback(generateCallback(userDB, true, undefined))
+                c.setEventCallback(generateCallback(userDB, true, pushService))
                 c.report();
             }
         }
@@ -264,7 +273,7 @@ if (argv._.length == 0) {
         let jobs = userDB.getByMode('ehall');
         for (const val of jobs) {
             let e = new ehall(val.username, val.password, val.details);
-            c.setEventCallback(generateCallback(userDB, true, undefined))
+            c.setEventCallback(generateCallback(userDB, true, pushService))
             e.report();
         }
     }, null, true, 'Asia/Shanghai');

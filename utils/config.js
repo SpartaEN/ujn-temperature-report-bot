@@ -18,16 +18,16 @@ const defaultSettings = {
         },
         telegramBot: {
             enable: false,
-            key: '',
-            userid: '',
+            token: '',
+            chatId: 0,
             webhooks: {
                 enable: false,
+                addr: '0.0.0.0',
+                port: 3000,
+                path: '/',
                 url: ''
             },
-            proxy: {
-                enable: false,
-                url: 'socks5://127.0.0.1:1080'
-            }
+            baseApiUrl: 'https://api.telegram.org'
         }
     },
     cron: {

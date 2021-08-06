@@ -1,4 +1,3 @@
-Critical
-1. Notification push
 Medium
 1. Seperate lastUpdate section to avoid duplicated submission
+2. Message summary for notifications (To avoid serverchan rate limit)
