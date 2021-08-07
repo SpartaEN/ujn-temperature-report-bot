@@ -20,7 +20,6 @@ function generateCallback(userDB, enablePush, pushService) {
         userDB.updateStatus(username, status, msg);
         if (enablePush) {
             pushService.handleMessage(type, mode, status, username, msg);
-            // TODO Push something to account
         }
     }
 }
@@ -59,7 +58,7 @@ const argv = yargs(hideBin(process.argv))
             console.log('Type'.padEnd(8) + 'Username'.padEnd(34) + 'Status'.padEnd(10) + 'Mode'.padEnd(12) + 'Last Message'.padEnd(20));
             for (const val of data) {
                 let msg = val.type.padEnd(8) + val.username.padEnd(34);
-                if (val.card == false && val.card == false) {
+                if (val.card == false && val.ehall == false) {
                     msg += 'N/A'.padEnd(10);
                     msg += 'Disabled'.padEnd(12);
                 } else {
