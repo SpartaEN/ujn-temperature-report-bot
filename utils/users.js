@@ -56,6 +56,9 @@ const ehallTemplate = {
     // 08/03/2021新增
     // 目前所在地风险等级 有 低风险 中风险 高风险
     MQSZDFXDJ: "低风险",
+    // 08/15/2021新增
+    // 是否有本土疫情旅居史
+    SFYBTYQLJS: "否",
     // 是否医学隔离
     SFYXGL: "否",
     // 发热情况 这个貌似是系统给填写的 分有 不发热 低热（37.3-38度） 中热(38.1-39度) 高热(39.1度以上)
@@ -110,6 +113,7 @@ const ehallTemplate = {
         CXFS: null,
         CPH: null,
         MQSZDFXDJ: null,
+        SFYBTYQLJS: null,
         SFYXGL: null,
         FRQK: null,
         SFGRXGFY: null,
