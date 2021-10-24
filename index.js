@@ -18,7 +18,7 @@ const notifications = require('./utils/notifications');
 function generateCallback(userDB, enablePush, pushService) {
     return function callback(type, mode, status, username, msg) {
         userDB.updateStatus(username, status, msg);
-        if (enablePush) {
+        if (enablePush && pushService) {
             pushService.handleMessage(type, mode, status, username, msg);
         }
     }

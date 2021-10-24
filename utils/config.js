@@ -8,6 +8,10 @@ const defaultSettings = {
             update: false,
             error: true
         },
+        autoSummary: {
+            enable: false,
+            interval: 60
+        },
         serverChan: {
             enable: false,
             key: '',
