@@ -25,7 +25,7 @@ class fanxiaoWeChat {
     }
     submitTemperature() {
         return request.post("https://fanxiao.ujn.edu.cn/temperatureRecord/createTemperatureRecordCopy", {
-            formData: {
+            form: {
                 reportTime: moment().format('YYYY-MM-DD'),
                 isOut: 2,
                 address: "",
@@ -36,7 +36,8 @@ class fanxiaoWeChat {
             },
             jar: this._jar,
             headers: {
-                "User-Agent": UA
+                "User-Agent": UA,
+                "X-Requested-With": "XMLHttpRequest"
             }
         });
     }
