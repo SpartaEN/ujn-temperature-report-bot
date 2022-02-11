@@ -1,6 +1,7 @@
 const fs = require('fs');
 
 const defaultSettings = {
+    toggleCardLeave: false,
     toggleCard: true,
     toggleEHall: true,
     notification: {
@@ -36,7 +37,8 @@ const defaultSettings = {
     },
     cron: {
         ehall: '00 14 * * *',
-        card: '00 18 * * *'
+        card: '00 18 * * *',
+        cardLeave: '00 18 * * *'
     }
 };
 

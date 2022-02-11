@@ -281,4 +281,25 @@ if (argv._.length == 0) {
             }
         }, null, true, 'Asia/Shanghai');
     }
+    if (config.toggleCardLeave) {
+        console.log(`Add scheduler for cardLeave, ${config.cron.cardLeave}`)
+        let scheduledCardLeave = new CronJob(config.cron.cardLeave, async function () {
+            console.log('Starting auto report for cardLeave.');
+            let userDB = new users();
+            let jobs = userDB.getByMode('cardLeave');
+            for (const val of jobs) {
+                if (val.type == 'openid') {
+                    let c = new fanxiaoWeChat(val.username);
+                    c.setLeaveData(val.detailsCard);
+                    c.setEventCallback(generateCallback(userDB, true, pushService))
+                    c.report();
+                } else {
+                    let c = new fanxiaoSSO(val.username, val.password);
+                    c.setLeaveData(val.detailsCard);
+                    c.setEventCallback(generateCallback(userDB, true, pushService))
+                    c.report();
+                }
+            }
+        }, null, true, 'Asia/Shanghai');
+    }
 }

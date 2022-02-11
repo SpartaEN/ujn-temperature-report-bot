@@ -31,8 +31,10 @@ function createServerChan(serverChanOptions) {
                     username = username.substring(0, 8);
                 if (mode == 'ehall')
                     title += '[办事大厅] ';
-                else
+                else if (mode == 'card')
                     title += '[返校健康卡] ';
+                else if (mode == 'card-leave')
+                    title += '[返校健康卡离校版] ';
                 if (status) {
                     title += '体温填报成功';
                     content += `用户 ${username} 体温填报成功!`;
@@ -45,8 +47,10 @@ function createServerChan(serverChanOptions) {
                 for (const msg of type) {
                     if (msg.mode == 'ehall') {
                         content += '办事大厅体温填报: ';
-                    } else {
+                    } else if (msg.mode == 'card') {
                         content += '返校健康卡体温填报: ';
+                    } else if (msg.mode == 'card-leave') {
+                        content += '返校健康卡离校体温填报: ';
                     }
                     if (msg.type == 'openid') {
                         content += `OpenID 用户 ${msg.username.substring(0, 8)} `;
@@ -117,8 +121,10 @@ function createTelegramBot(telegramBotOptions) {
                     username = username.substring(0, 8);
                 if (mode == 'ehall')
                     message += '[办事大厅] ';
-                else
+                else if (mode == 'card')
                     message += '[返校健康卡] ';
+                else if (mode == 'card-leave')
+                    message += '[返校健康卡离校版] ';
                 if (status) {
                     message += `用户 ${username} 体温填报成功!`;
                 } else {
@@ -129,8 +135,10 @@ function createTelegramBot(telegramBotOptions) {
                 for (const msg of type) {
                     if (msg.mode == 'ehall') {
                         content += '办事大厅体温填报: ';
-                    } else {
+                    } else if (msg.mode == 'card') {
                         content += '返校健康卡体温填报: ';
+                    } else if (msg.mode == 'card-leave') {
+                        content += '返校健康卡离校体温填报: ';
                     }
                     if (msg.type == 'openid') {
                         content += `OpenID 用户 ${msg.username.substring(0, 8)} `;

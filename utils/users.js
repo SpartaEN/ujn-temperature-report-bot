@@ -225,6 +225,7 @@ class users {
         let entry = {
             ehall: type == 'sso' ? true : false,
             card: true,
+            cardLeave: false,
             // Username in SSO or OpenID
             username: details.username,
             // null in openid
@@ -255,6 +256,69 @@ class users {
                 isAtSchool: details.isAtSchool,
                 override: {}
             }
+        }
+        entry.detailsCard = {
+            userId: 0,
+            studentId: 0,
+            phone: '0',
+            // 是否使用默认表单 启用之后用户自己填写的则作为fallback
+            useOnlinePreset: true,
+            // 是否填写宿舍信息
+            fillInDormData: false,
+            // 是否使用存储在学校服务器上的数据
+            dormOnlineData: false,
+            // 宿舍校区 1 主校区北院 2 主校区南院 3 舜耕校区
+            campus: '0',
+            floor: '学1',
+            roomNumber: '101',
+            // 家乡所在省 均参考 http://fanxiao.ujn.edu.cn/views/wechat/page/area.json
+            province: '370000',
+            // 市
+            city: '370100',
+            // 区
+            area: '370103',
+            provinceName: '山东省',
+            cityName: '济南市',
+            areaName: '市中区',
+            // 是否在国内 1 国内 2 国外
+            inCountry: '1',
+            // 当前所在省市区
+            inProvince: '370000',
+            inCity: '370100',
+            inArea: '370103',
+            inProvinceName: '山东省',
+            inCityName: '济南市',
+            inAreaName: '市中区',
+            // 详细地址 在国外再填写
+            detailAdress: '',
+            // 是否离开所在地 1 是 2 否 ?这三小
+            offLive: '2',
+            offDate: '',
+            arriveDate: '',
+            // 路线
+            route: '',
+            // 出行方式 1 火车 2 长途汽车 3 飞机 4 自驾 5 其他
+            travelType: '',
+            // 出行方式相关信息 如车牌号等
+            flightOrCarNumber: '',
+            // 风险等级 3 低风险 2 中风险 1 高风险
+            liveRisk: '3',
+            // 14天内有无本土疫情 1 是 2 否
+            inLiveTwoWeek: '2',
+            // 是否隔离
+            isIsolation: '2',
+            // 是否感染
+            isInfect: '2',
+            // 是否密接
+            isCloseContact: '2',
+            // 14天内高风险地区旅居史/接触史
+            outLiveTwoWeek: '2',
+            // 21天社区是否有疫情
+            inVillageThreeWeek: '2',
+            // 纬度
+            latitude: 36.61496,
+            // 经度
+            longitude: 116.97126
         }
         this.userDB.set(entry.username, entry);
         this.commit();

@@ -6,6 +6,10 @@
  - 智慧济大办事大厅填报
  - 返校健康卡(单点登录)
  - 返校健康卡(微信OpenID)
+ - 返校健康卡离校版(单点登录)
+ - 返校健康卡离校版(微信OpenID)
+
+ 离校版由于某些问题关键信息只能手动获取, 参考 [#1](https://github.com/SpartaEN/ujn-temperature-report-bot/issues/1).
 
 # Requirements
 
