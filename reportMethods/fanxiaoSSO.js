@@ -16,6 +16,11 @@ class fanxiaoSSO extends ujnsso {
             fillInDormData: false,
             dormOnlineData: false,
         }
+        this._submit_coordinates = false;
+        this._coordinates = {
+            latitude: 36.62155,
+            longitude: 116.97992,
+        };
     }
     setLeaveData(data) {
         this._is_leave = true;
@@ -35,26 +40,56 @@ class fanxiaoSSO extends ujnsso {
         delete this._leave_data.fillInDormData;
         delete this._leave_data.dormOnlineData;
     }
+    setCoordinates(latitude, longitude) {
+        this._submit_coordinates = true;
+        if (latitude && longitude) {
+            this._coordinates = {
+                latitude: (latitude + ((Math.floor(Math.random() * 3) - 1) * Math.floor(Math.random() * 2) / 100000)).toFixed(5),
+                longitude: (longitude + ((Math.floor(Math.random() * 3) - 1) * Math.floor(Math.random() * 2) / 100000)).toFixed(5),
+            };
+        }
+    }
     setEventCallback(cb) {
         this._event_cb = cb;
     }
     submitTemperature() {
-        return request.post("https://fanxiao.ujn.edu.cn/temperatureRecord/createTemperatureRecordCopy", {
-            form: {
-                reportTime: moment().format('YYYY-MM-DD'),
-                isOut: 2,
-                address: "",
-                travelMode: "",
-                temperatureAm: 36.5,
-                temperaturePm: 36.5,
-                reserveOne: 36.5
-            },
-            jar: this._jar,
-            headers: {
-                "User-Agent": UA,
-                "X-Requested-With": "XMLHttpRequest"
-            }
-        });
+        if (this._submit_coordinates) {
+            return request.post("https://fanxiao.ujn.edu.cn/temperatureRecord/createTemperatureRecordCopy", {
+                form: {
+                    reportTime: moment().format('YYYY-MM-DD'),
+                    isOut: 2,
+                    address: "",
+                    travelMode: "",
+                    temperatureAm: 36.5,
+                    temperaturePm: 36.5,
+                    reserveOne: 36.5,
+                    latitude: this._coordinates.latitude,
+                    longitude: this._coordinates.longitude
+                },
+                jar: this._jar,
+                headers: {
+                    "User-Agent": UA,
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            });
+        } else {
+            return request.post("https://fanxiao.ujn.edu.cn/temperatureRecord/createTemperatureRecordCopy", {
+                form: {
+                    reportTime: moment().format('YYYY-MM-DD'),
+                    isOut: 2,
+                    address: "",
+                    travelMode: "",
+                    temperatureAm: 36.5,
+                    temperaturePm: 36.5,
+                    reserveOne: 36.5
+                },
+                jar: this._jar,
+                headers: {
+                    "User-Agent": UA,
+                    "X-Requested-With": "XMLHttpRequest"
+                }
+            });
+        }
     }
     submitTemperatureLeave() {
         return request.post("https://fanxiao.ujn.edu.cn/resultOffHealthyDay/addOffHealthyDay", {

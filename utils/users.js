@@ -318,7 +318,11 @@ class users {
             // 纬度
             latitude: 36.61496,
             // 经度
-            longitude: 116.97126
+            longitude: 116.97126,
+            // 校内纬度
+            inSchoolLatitude: 36.61496,
+            // 校内经度
+            inSchoolLongitude: 116.97126
         }
         this.userDB.set(entry.username, entry);
         this.commit();

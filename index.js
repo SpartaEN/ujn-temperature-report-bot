@@ -258,10 +258,16 @@ if (argv._.length == 0) {
             for (const val of jobs) {
                 if (val.type == 'openid') {
                     let c = new fanxiaoWeChat(val.username);
+                    if (config.submitCoordinateForInSchoolCard) {
+                        c.setCoordinates(val.detailsCard.inSchoolLatitude, val.detailsCard.inSchoolLongitude);
+                    }
                     c.setEventCallback(generateCallback(userDB, true, pushService))
                     c.report();
                 } else {
                     let c = new fanxiaoSSO(val.username, val.password);
+                    if (config.submitCoordinateForInSchoolCard) {
+                        c.setCoordinates(val.detailsCard.inSchoolLatitude, val.detailsCard.inSchoolLongitude);
+                    }
                     c.setEventCallback(generateCallback(userDB, true, pushService))
                     c.report();
                 }

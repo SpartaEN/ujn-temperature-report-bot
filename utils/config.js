@@ -4,6 +4,7 @@ const defaultSettings = {
     toggleCardLeave: false,
     toggleCard: true,
     toggleEHall: true,
+    submitCoordinateForInSchoolCard: true,
     notification: {
         events: {
             update: false,
