@@ -230,10 +230,16 @@ const argv = yargs(hideBin(process.argv))
                     if (argv.type == 'all' || argv.type == 'card') {
                         if (val.type == 'sso') {
                             let c = new fanxiaoSSO(val.username, val.password);
+                            if (config.submitCoordinateForInSchoolCard) {
+                                c.setCoordinates(val.detailsCard.inSchoolLatitude, val.detailsCard.inSchoolLongitude);
+                            }
                             c.setEventCallback(generateCallback(userDB, true, undefined));
                             c.report();
                         } else {
                             let c = new fanxiaoWeChat(val.username, val.password);
+                            if (config.submitCoordinateForInSchoolCard) {
+                                c.setCoordinates(val.detailsCard.inSchoolLatitude, val.detailsCard.inSchoolLongitude);
+                            }
                             c.setEventCallback(generateCallback(userDB, false, undefined));
                             c.report();
                         }
