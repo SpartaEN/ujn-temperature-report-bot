@@ -24,7 +24,11 @@ class ujnsso {
                 if (err) {
                     reject(err);
                 } else {
-                    resolve(body.match(/"(LT-.+-tpass)"/)[1]);
+                    try {
+                        resolve(body.match(/"(LT-.+-tpass)"/)[1]);
+                    } catch(e) {
+                        reject(e);
+                    }
                 }
             });
         });
