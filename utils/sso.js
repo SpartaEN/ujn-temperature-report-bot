@@ -19,6 +19,9 @@ class ujnsso {
                 jar: this._jar,
                 qs: {
                     service: this._service
+                },
+                headers: {
+                    'User-Agent': UA
                 }
             }, (err, res, body) => {
                 if (err) {
@@ -39,7 +42,7 @@ class ujnsso {
             return new Promise((resolve, reject) => {
                 let c = des.enc(this._username + this._password + this._lt, '1', '2', '3');
                 request({
-                        url: 'http://sso.ujn.edu.cn/tpass/login',
+                        url: 'https://sso.ujn.edu.cn/tpass/login',
                         method: 'POST',
                         jar: this._jar,
                         qs: {
