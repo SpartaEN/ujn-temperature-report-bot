@@ -24,6 +24,14 @@ function generateCallback(userDB, enablePush, pushService) {
     }
 }
 
+function sleep(time) {
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            resolve();
+        }, time);
+    });
+}
+
 const argv = yargs(hideBin(process.argv))
     .command('init', 'Initial config file', (argv) => {
         try {
@@ -276,6 +284,7 @@ if (argv._.length == 0) {
                     }
                     c.setEventCallback(generateCallback(userDB, true, pushService))
                     c.report();
+                    await sleep(config.ssoAuthInterval);
                 }
             }
         }, null, true, 'Asia/Shanghai');
@@ -290,6 +299,7 @@ if (argv._.length == 0) {
                 let e = new ehall(val.username, val.password, val.details);
                 e.setEventCallback(generateCallback(userDB, true, pushService))
                 e.report();
+                await sleep(config.ssoAuthInterval);
             }
         }, null, true, 'Asia/Shanghai');
     }
@@ -310,6 +320,7 @@ if (argv._.length == 0) {
                     c.setLeaveData(val.detailsCard);
                     c.setEventCallback(generateCallback(userDB, true, pushService))
                     c.report();
+                    await sleep(config.ssoAuthInterval);
                 }
             }
         }, null, true, 'Asia/Shanghai');

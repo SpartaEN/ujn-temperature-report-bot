@@ -5,6 +5,7 @@ const defaultSettings = {
     toggleCard: true,
     toggleEHall: true,
     submitCoordinateForInSchoolCard: true,
+    ssoAuthInterval: 3000,
     notification: {
         events: {
             update: false,
